@@ -59,9 +59,23 @@ class EmployeeTestCase(unittest.TestCase):
         },
     ]
 
+    new_emp = {
+        'id': 2,
+        'first_name': 'Андрей',
+        'last_name': 'Андреев',
+        'patronymic': 'Андреевич',
+        'email': 'andreev@mail.ru',
+        'phone_number': '+7(968)-893-99-21',
+        'user_id':2
+    }
+
     params = {
         'email': 'ivanov@mail.ru',
         'password': 'qwerty'
+    }
+
+    replaced_info = {
+        'phone_number': '+7(968)-893-99-00'
     }
 
     token = None
@@ -90,6 +104,10 @@ class EmployeeTestCase(unittest.TestCase):
         self.assertEqual(len(resp.get_json()), len(self.data))
         self.assertEqual(resp.get_json()[0]['first_name'], self.data[0]['first_name'])
 
+    def test_get_employees_list_unauthorized_access(self):
+        resp = client.get('/employees')
+        self.assertEqual(resp.status_code, 401)
+
     def test_get_employee_correct_url(self):
         resp = client.get('/employees/0', headers=self.headers)
         self.assertEqual(resp.status_code, 200)
@@ -100,38 +118,32 @@ class EmployeeTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(resp.get_json()['message'], 'No Employees with this id')
 
+    def test_get_employee_unauthorized_access(self):
+        resp = client.get('/employees/0')
+        self.assertEqual(resp.status_code, 401)
+
     def test_create_employee_correct_data(self):
-        emp = {
-            'id': 2,
-            'first_name': 'Андрей',
-            'last_name': 'Андреев',
-            'patronymic': 'Андреевич',
-            'email': 'andreev@mail.ru',
-            'phone_number': '+7(968)-893-99-21',
-            'user_id':2
-        }
-
-        resp = client.post('/employees', headers=self.headers, json=emp)
+        resp = client.post('/employees', headers=self.headers, json=self.new_emp)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.get_json()['first_name'], emp['first_name'])
+        self.assertEqual(resp.get_json()['first_name'], self.new_emp['first_name'])
 
-    def test_update_employee_correct_urlnew_(self):
-        replaced_info = {
-            'phone_number': '+7(968)-893-99-00'
-        }
+    def test_create_employee_unauthorized_access(self):
+        resp = client.post('/employees', json=self.new_emp)
+        self.assertEqual(resp.status_code, 401)
 
-        resp = client.put('/employees/0', headers=self.headers, json=replaced_info)
+    def test_update_employee_correct_url(self):
+        resp = client.put('/employees/0', headers=self.headers, json=self.replaced_info)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.get_json()['phone_number'], replaced_info['phone_number'])
+        self.assertEqual(resp.get_json()['phone_number'], self.replaced_info['phone_number'])
 
     def test_update_employee_incorrect_url(self):
-        replaced_info = {
-            'phone_number': '+7(968)-893-99-00'
-        }
-
-        resp = client.put('/employees/100', headers=self.headers, json=replaced_info)
+        resp = client.put('/employees/100', headers=self.headers, json=self.replaced_info)
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(resp.get_json()['message'], 'No Employees with this id')
+
+    def test_update_employee_unauthorized_access(self):
+        resp = client.put('/employees/0', json=self.replaced_info)
+        self.assertEqual(resp.status_code, 401)
 
     def test_delete_employee_correct_url(self):
         resp = client.delete('/employees/1', headers=self.headers)
@@ -143,6 +155,10 @@ class EmployeeTestCase(unittest.TestCase):
         resp = client.delete('/employees/100', headers=self.headers)
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(resp.get_json()['message'], 'No Employees with this id')
+
+    def test_delete_employee_unauthorized_access(self):
+        resp = client.delete('/employees/1')
+        self.assertEqual(resp.status_code, 401)
 
 
 if __name__ == '__main__':
