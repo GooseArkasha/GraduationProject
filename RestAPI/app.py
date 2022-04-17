@@ -39,6 +39,7 @@ def get_employees_list():
             'first_name': employee.first_name,
             'last_name': employee.last_name,
             'patronymic': employee.patronymic,
+            'email': employee.email,
             'phone_number': employee.phone_number,
             'user_id': employee.user_id
         })
@@ -55,6 +56,7 @@ def get_employee(employee_id):
         'first_name': employee.first_name,
         'last_name': employee.last_name,
         'patronymic': employee.patronymic,
+        'email': employee.email,
         'phone_number': employee.phone_number,
         'user_id': employee.user_id
     }
@@ -71,6 +73,7 @@ def create_employee():
         'first_name': new_employee.first_name,
         'last_name': new_employee.last_name,
         'patronymic': new_employee.patronymic,
+        'email': new_employee.email,
         'phone_number': new_employee.phone_number,
         'user_id': new_employee.user_id
     }
@@ -92,6 +95,7 @@ def update_employee(employee_id):
         'first_name': employee.first_name,
         'last_name': employee.last_name,
         'patronymic': employee.patronymic,
+        'email': employee.email,
         'phone_number': employee.phone_number,
         'user_id': employee.user_id
     }

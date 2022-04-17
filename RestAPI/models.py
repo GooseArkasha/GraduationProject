@@ -10,6 +10,7 @@ class Employee(Base):
     first_name = db.Column(db.String(250), nullable=False)
     last_name = db.Column(db.String(250), nullable=False)
     patronymic =  db.Column(db.String(250), nullable=True)
+    email = db.Column(db.String(250), nullable=False, unique=True)
     phone_number = db.Column(db.String(250), nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     #position_id = db.Column(db.Integer, FoForeignKey(positions.id)
