@@ -64,7 +64,7 @@ class EmployeeTestCase(unittest.TestCase):
         'first_name': 'Андрей',
         'last_name': 'Андреев',
         'patronymic': 'Андреевич',
-        'email': 'andreev@mail.ru',
+        'email': 'andreev@gmail.com',
         'phone_number': '+7(968)-893-99-21',
         'user_id':2
     }
@@ -75,7 +75,13 @@ class EmployeeTestCase(unittest.TestCase):
     }
 
     replaced_info = {
-        'phone_number': '+7(968)-893-99-00'
+        'id': 2,
+        'first_name': 'Андрей',
+        'last_name': 'Андреев',
+        'patronymic': 'Андреевич',
+        'email': 'andreev@gmail.com',
+        'phone_number': '+7(968)-893-99-00',
+        'user_id':2
     }
 
     token = None
