@@ -15,6 +15,54 @@ class Employee(Base):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     #position_id = db.Column(db.Integer, FoForeignKey(positions.id)
 
+    @classmethod
+    def get_employees_list(cls):
+        try:
+            employees = cls.query.all()
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        return employees
+
+    @classmethod
+    def get_employee(cls, employee_id):
+        try:
+            employee = cls.query.filter(cls.id == employee_id).first()
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        return employee
+
+    def save(self):
+        try:
+            session.add(self)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+
+    def update(self, **kwargs):
+        try:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+
+    def delete(self):
+        try:
+            session.delete(self)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+
+
+
+
 class User(Base):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -38,3 +86,11 @@ class User(Base):
         if not bcrypt.verify(password, user.password):
             raise Exception('No user with this password')
         return user
+
+    def save(self):
+        try:
+            session.add(self)
+            session.commit()
+        except Exeption:
+            session.rollback()
+            raise

@@ -122,7 +122,6 @@ class EmployeeTestCase(unittest.TestCase):
     def test_get_employee_incorrect_url(self):
         resp = client.get('/employees/1000', headers=self.headers)
         self.assertEqual(resp.status_code, 400)
-        self.assertEqual(resp.get_json()['message'], 'No Employees with this id')
 
     def test_get_employee_unauthorized_access(self):
         resp = client.get('/employees/0')
@@ -145,7 +144,6 @@ class EmployeeTestCase(unittest.TestCase):
     def test_update_employee_incorrect_url(self):
         resp = client.put('/employees/100', headers=self.headers, json=self.replaced_info)
         self.assertEqual(resp.status_code, 400)
-        self.assertEqual(resp.get_json()['message'], 'No Employees with this id')
 
     def test_update_employee_unauthorized_access(self):
         resp = client.put('/employees/0', json=self.replaced_info)
@@ -160,7 +158,6 @@ class EmployeeTestCase(unittest.TestCase):
     def test_delete_employee_incorrect_url(self):
         resp = client.delete('/employees/100', headers=self.headers)
         self.assertEqual(resp.status_code, 400)
-        self.assertEqual(resp.get_json()['message'], 'No Employees with this id')
 
     def test_delete_employee_unauthorized_access(self):
         resp = client.delete('/employees/1')
